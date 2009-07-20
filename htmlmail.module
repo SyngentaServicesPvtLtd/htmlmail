@@ -13,7 +13,7 @@ function htmlmail_help($section='') {
   switch ($section) {
     case 'admin/help#htmlmail':
     case 'admin/settings/htmlmail':
-      $output = '<p>'.  t("HTML Mail provides formatting and semantic markup capabilities in e-mail that are not available with plain text. All system emails are effected if this module is enabled. Additional HTML Mail templates, ie: <strong>htmlmail-<em>name</em>.tpl.php</strong> will be detected if present anywhere under the current theme directory.") .'</p>';
+      $output = '<p>'.  t("HTML Mail provides formatting and semantic markup capabilities in e-mail that are not available with plain text. All system emails are effected if this module is enabled.") .'</p>';
   }
   return $output;
 }
@@ -89,10 +89,18 @@ function htmlmail_mail_alter($mailkey, &$recipient, &$subject, &$body, &$sender,
  * Theme function to load htmlmail.tpl.php
  */
 function theme_htmlmail($body) {
-  $template = _htmlmail_template('path') .'/'. _htmlmail_template('file');
+  if (file_exists(path_to_theme() .'/htmlmail.tpl.php')) {
+    $path = path_to_theme();
+  }
+  else {
+    $path = drupal_get_path('module', 'htmlmail');
+  }
+
+  $template = $path .'/htmlmail.tpl.php';
+
   $variables = array(
     'body' => $body,
-    'path' => url('', NULL, NULL, TRUE) . _htmlmail_template('path'),
+    'path' => url('', NULL, NULL, TRUE) . $path,
     'header' => variable_get('htmlmail_header', ''),
     'footer' => variable_get('htmlmail_footer', ''),
     'css' => variable_get('htmlmail_css', ''),
@@ -125,13 +133,6 @@ function htmlmail_admin_settings() {
 }
 
 function htmlmail_template_settings() {
-  $form['htmlmail_template'] = array(
-    '#type' => 'select',
-    '#title' => t('Template'),
-    '#default_value' => variable_get('htmlmail_template', ''),
-    '#description' => t('Select from default or HTML Mail templates installed in the current themes\'s directory.'),
-    '#options' => _htmlmail_get_templates(),
-  );
   $form['htmlmail_header'] = array(
     '#type' => 'textarea',
     '#title' => t('Header HTML'),
@@ -242,32 +243,4 @@ function _htmlmail_emogrify(&$body) {
     error_reporting($errorlevel);
   }
   return $body;
-}
-
-/**
- * Scan theme's directory for htmlmail templates: Return array for form select options
- */
-function _htmlmail_get_templates() {
-  $templates = array('' => 'Use Default');
-  $files = file_scan_directory(path_to_theme(), '^htmlmail-.*\.tpl\.php$');
-  foreach ($files as $file) {
-    $templates[$file->filename] = $file->name;
-  }
-  return $templates;
-}
-
-/**
- * Build and return template path or filename, module directory if no template selected.
- */
-function _htmlmail_template($type) {
-  $template = variable_get('htmlmail_template', '');
-  switch ($type) {
-    case 'file':
-      $output = empty($template) ? 'htmlmail.tpl.php' : basename($template);
-      break;
-    case 'path':
-      $output = empty($template) ? drupal_get_path('module', 'htmlmail') : dirname($template);
-      break;
-  }
-  return $output;
 }
