@@ -6,13 +6,6 @@
  */
 
 /**
- * Implementation of hook_install().
- */
-function htmlmail_install() {
-  db_query("UPDATE {system} SET weight = 1 WHERE name = 'htmlmail'");
-}
-
-/**
  * Implementation of hook_uninstall().
  */
 function htmlmail_uninstall() {
