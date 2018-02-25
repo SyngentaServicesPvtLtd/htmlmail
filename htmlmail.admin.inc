@@ -281,7 +281,7 @@ function htmlmail_test_form($form, &$form_values) {
     '#title' => t('Test mail sending class'),
     '#default_value' => $mailsystem['htmlmail'],
     '#options' => array_combine(mailsystem_get_classes(), mailsystem_get_classes()),
-    '#description' => 'Select the MailSystemInterface implementation to be tested.',
+    '#description' => t('Select the MailSystemInterface implementation to be tested.'),
   );
 
   $form['submit'] = array(
