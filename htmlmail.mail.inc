@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Formats and sends mail using the MailMIME class.
@@ -12,6 +13,7 @@
  * Implements MailSystemInterface.
  */
 class HTMLMailSystem implements MailSystemInterface {
+
   /**
    * Format emails according to module settings.
    *
