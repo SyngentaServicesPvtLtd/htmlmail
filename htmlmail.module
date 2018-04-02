@@ -164,28 +164,13 @@ function htmlmail_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.htmlmail':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('<a href=":htmlmail">HTML Mail</a> lets you theme your messages the same way you theme the rest of your website.',
-          [':htmlmail' => 'http://drupal.org/project/htmlmail']
+      $output .= '<p>' . t('<a target="blank" href=":htmlmail">HTML Mail</a> lets you theme your messages the same way you theme the rest of your website. For more information, see the <a href=":online_documentation">online documentation for the HTML Mail project.</a>',
+          [
+            ':htmlmail' => 'http://drupal.org/project/htmlmail',
+            ':online_documentation' => 'https://www.drupal.org/docs/8/modules/html-mail',
+          ]
         ) . '</p>';
 
-      $output .= '<h3>' . t('Requirements') . '</h3>';
-      $output .= '<p>' . t('If you want to use the <strong>MIME Mail class</strong>, the following files, available from <a href="@pear_link">PEAR</a>, must be installed and available somewhere on the <a href="@include_path_link">include_path</a>.',
-          [
-            '@pear_link' => 'http://pear.php.net/',
-            '@include_path_link' => 'http://php.net/manual/ini.core.php#ini.include-path',
-          ]) . '</p>';
-      $output .= '<ul>';
-      $output .= '<li>' . t('Mail/mime.php') . '</li>';
-      $output .= '<li>' . t('Mail/mimeDecode.php') . '</li>';
-      $output .= '<li>' . t('Mail/mimePart.php') . '</li>';
-      $output .= '<li>' . t('PEAR.php') . '</li>';
-      $output .= '<li>' . t('PEAR5.php') . '</li>';
-      $output .= '</ul>';
-
-      $output .= '<p>' . t('To satisfy the requirements, run the following commands from shell prompt:') . '</p>';
-      $output .= '<p><code>' . t('pear install -a Mail_Mime') . '</code></p>';
-      $output .= '<p><code>' . t('pear install Mail_mimeDecode') . '</code></p>';
-      $output .= '<p>' . t('The -a parameter ensures that dependencies, including Mail/mimePart.php, are also installed.') . '</p>';
       return $output;
   }
 }
