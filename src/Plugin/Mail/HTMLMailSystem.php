@@ -10,7 +10,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Mail;
-use Drupal\Core\Render\Renderer;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Component\Utility\Unicode;
 use Drupal\htmlmail\Helper\HtmlMailHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -58,7 +58,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    *   The logger service.
    * @param \Drupal\Core\Site\Settings $settings
    *   The site settings service.
-   * @param \Drupal\Core\Render\Renderer $renderer
+   * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The render service.
    * @param \Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface $mimeTypeGuesser
    *   The mime guesser service.
@@ -72,7 +72,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     FileSystemInterface $fileSystem,
     LoggerChannelFactoryInterface $logger,
     Settings $settings,
-    Renderer $renderer,
+    RendererInterface $renderer,
     MimeTypeGuesserInterface $mimeTypeGuesser
   ) {
     $this->emailValidator = $emailValidator;
