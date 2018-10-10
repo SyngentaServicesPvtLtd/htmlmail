@@ -31,8 +31,7 @@ function htmlmail_mail($key, &$message, $params) {
 function htmlmail_theme($existing, $type, $theme, $path) {
   $items = [];
   $module_path = \Drupal::service('module_handler')->getModule(HtmlMailHelper::HTMLMAIL_MODULE_NAME)->getPath();
-  $pattern = '/^,
-  .*\.html\.twig$/';
+  $pattern = '/^htmlmail.*\.html\.twig$/';
   $files = file_scan_directory('modules', $pattern, ['key' => 'name']);
   if ($theme = HtmlMailHelper::getSelectedTheme()) {
     $theme_path = \Drupal::service('theme_handler')->getTheme($theme)->getPath();
