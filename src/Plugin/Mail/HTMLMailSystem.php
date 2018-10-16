@@ -38,6 +38,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
   protected $fileSystem;
   protected $renderer;
   protected $mimeType;
+  protected $configFactory;
 
   /**
    * HTMLMailSystem constructor.
@@ -84,6 +85,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     $this->siteSettings = $settings;
     $this->renderer = $renderer;
     $this->mimeType = $mimeTypeGuesser;
+    $this->configFactory = \Drupal::configFactory();
   }
 
   /**
@@ -380,7 +382,10 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       else {
         // On most non-Windows systems, the "-f" option to the sendmail command
         // is used to set the Return-Path.
-        $extra = '-f' . $message['headers']['Return-Path'];
+        // We validate the return path, unless it is equal to the site mail, which
+        // we assume to be safe.
+        $site_mail = $this->configFactory->get('system.site')->get('mail');
+        $extra = ($site_mail === $message['headers']['Return-Path'] || static::_isShellSafe($message['headers']['Return-Path'])) ? '-f' . $message['headers']['Return-Path'] : '';
         $result = @mail($to, $subject, $body, $txt_headers, $extra);
         if ($this->configVariables->get('htmlmail_debug')) {
           $params[] = $extra;
@@ -412,6 +417,35 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       ]);
     }
     return $result;
+  }
+
+  /**
+   * Disallows potentially unsafe shell characters.
+   *
+   * Functionally similar to PHPMailer::isShellSafe() which resulted from
+   * CVE-2016-10045. Note that escapeshellarg and escapeshellcmd are inadequate
+   * for this purpose.
+   *
+   * @param string $string
+   *   The string to be validated.
+   *
+   * @return bool
+   *   True if the string is shell-safe.
+   *
+   * @see https://github.com/PHPMailer/PHPMailer/issues/924
+   * @see https://github.com/PHPMailer/PHPMailer/blob/v5.2.21/class.phpmailer.php#L1430
+   *
+   * @todo Rename to ::isShellSafe() and/or discuss whether this is the correct
+   *   location for this helper.
+   */
+  protected static function _isShellSafe($string) {
+    if (escapeshellcmd($string) !== $string || !in_array(escapeshellarg($string), ["'$string'", "\"$string\""])) {
+      return FALSE;
+    }
+    if (preg_match('/[^a-zA-Z0-9@_\-.]/', $string) !== 0) {
+      return FALSE;
+    }
+    return TRUE;
   }
 
   /**
