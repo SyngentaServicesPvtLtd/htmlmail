@@ -190,12 +190,12 @@ class HtmlMailTestForm extends FormBase {
 
     $result = $this->mailManager->mail(HtmlMailHelper::getModuleName(), self::KEY_NAME, $defaults['to'], $langcode, $params, NULL, TRUE);
     if ($result['result'] === TRUE) {
-      drupal_set_message($this->t('HTML Mail test message sent.'));
+        $this->messenger()->addMessage($this->t('HTML Mail test message sent.'));
     }
     else {
-      drupal_set_message($this->t('Something went wrong. Please check @logs for details.', [
+        $this->messenger()->addError($this->t('Something went wrong. Please check @logs for details.', [
         '@logs' => Link::createFromRoute($this->t('logs'), 'dblog.overview')->toString(),
-      ]), 'error');
+      ]));
     }
   }
 
