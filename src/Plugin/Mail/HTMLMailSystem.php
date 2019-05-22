@@ -451,7 +451,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
   /**
    * Use the MailMime class to format the message body.
    *
-   * @see http://drupal.org/project/mailmime
+   * @see https://www.drupal.org/project/mailmime
    */
   public function formatMailMime(array &$message) {
     $eol = $this->siteSettings->get('mail_line_endings', PHP_EOL);

@@ -165,7 +165,7 @@ function htmlmail_help($route_name, RouteMatchInterface $route_match) {
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('<a target="blank" href=":htmlmail">HTML Mail</a> lets you theme your messages the same way you theme the rest of your website. For more information, see the <a href=":online_documentation">online documentation for the HTML Mail project.</a>',
           [
-            ':htmlmail' => 'http://drupal.org/project/htmlmail',
+            ':htmlmail' => 'https://www.drupal.org/project/htmlmail',
             ':online_documentation' => 'https://www.drupal.org/docs/8/modules/html-mail',
           ]
         ) . '</p>';

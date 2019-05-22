@@ -28,7 +28,7 @@
     ],
     "support": {
         "irc": "irc://irc.freenode.org/drupal-contribute",
-        "source": "https://cgit.drupalcode.org/htmlmail"
+        "source": "https://git.drupalcode.org/project/htmlmail"
     },
     "license": "GPL-2.0+"
 }

@@ -83,7 +83,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
       '#prefix' => '<strong>' . $this->t('Template file:') . '</strong><br />'
       . $this->t('A template file is applied to your message header, subject, and body text.  You may copy the <code><a href=":uri">:template</a></code> file to your default theme directory and use it to customize your messages.',
           [
-            ':uri' => 'http://cgit.drupalcode.org/htmlmail/plain/htmlmail.html.twig?id=refs/heads/8.x-1.x',
+            ':uri' => 'https://git.drupalcode.org/project/htmlmail/raw/8.x-3.x/templates/htmlmail.html.twig',
             ':template' => 'htmlmail.html.twig',
           ]
       ),
