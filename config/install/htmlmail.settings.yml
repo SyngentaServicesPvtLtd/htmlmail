@@ -1,5 +1,5 @@
 htmlmail_debug: false
-hmtlmail_theme: ''
+htmlmail_theme: ''
 htmlmail_html_with_plain: false
 htmlmail_use_mime_mail: false
 htmlmail_postfilter: '0'

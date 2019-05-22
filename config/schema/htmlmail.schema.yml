@@ -5,7 +5,7 @@ htmlmail.settings:
     htmlmail_debug:
       type: boolean
       label: 'Enable the template debug'
-    hmtlmail_theme:
+    htmlmail_theme:
       type: string
       label: 'The theme used to send the email'
     htmlmail_html_with_plain:
