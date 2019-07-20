@@ -226,16 +226,16 @@ class HTMLMailSystem implements MailSystemInterface {
   /**
    * Send an email message.
    *
-   * @param array $message
+   * @param array $raw_message
    *   An associative array containing at least:
    *   - headers: An associative array of (name => value) email headers.
    *   - body: The text/plain or text/html message body.
    *   - MailMIME: The message, parsed into a MailMIME object.
    */
-  public function mail(array $message) {
+  public function mail(array $raw_message) {
     $eol = variable_get('mail_line_endings', MAIL_LINE_ENDINGS);
     // Ensure that subject is non-null.
-    $message += array('subject' => t('(No subject)'));
+    $message = $raw_message + array('subject' => t('(No subject)'));
     // Check for empty recipient.
     if (empty($message['to'])) {
       if (empty($message['headers']['To'])) {
