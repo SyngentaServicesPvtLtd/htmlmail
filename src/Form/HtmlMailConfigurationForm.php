@@ -300,9 +300,9 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     if ($form_state->getValue('htmlmail_use_mime_mail')) {
       // Try including the files, then cleck for the classes.
-      @include_once 'Edu/Mail/mime.php';
-      @include_once 'Edu/Mail/mimeDecode.php';
-      @include_once 'Edu/Mail/mimePart.php';
+      @include_once 'Mail/mime.php';
+      @include_once 'Mail/mimeDecode.php';
+      @include_once 'Mail/mimePart.php';
       if (!class_exists('Mail_Mime')
         || !class_exists('Mail_mimeDecode')
         || !class_exists('Mail_mimePart')
