@@ -289,6 +289,7 @@ class HTMLMailSystem implements MailSystemInterface {
         $result = @mail($to, $subject, $body, $txt_headers);
         ini_set('sendmail_from', $old_from);
       }
+      // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved
       elseif (ini_get('safe_mode')) {
         // If safe mode is in effect, passing the fifth parameter to @mail
         // will cause it to return FALSE and generate a PHP warning, even
