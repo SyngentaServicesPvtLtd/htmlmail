@@ -233,6 +233,7 @@ class HTMLMailSystem implements MailSystemInterface {
    *   - MailMIME: The message, parsed into a MailMIME object.
    */
   public function mail(array $raw_message) {
+    $trace = debug_backtrace(0);
     $eol = variable_get('mail_line_endings', MAIL_LINE_ENDINGS);
     // Ensure that subject is non-null.
     $message = $raw_message + array('subject' => t('(No subject)'));
@@ -319,7 +320,6 @@ class HTMLMailSystem implements MailSystemInterface {
         $trace = print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 1);
       }
       else {
-        $trace = debug_backtrace(0);
         for ($i = count($trace) - 1; $i >= 0; $i--) {
           unset($trace[$i]['args']);
         }
