@@ -32,11 +32,11 @@ function htmlmail_theme($existing, $type, $theme, $path) {
   $items = [];
   $module_path = \Drupal::service('module_handler')->getModule(HtmlMailHelper::HTMLMAIL_MODULE_NAME)->getPath();
   $pattern = '/^htmlmail.*\.html\.twig$/';
-  $files = file_scan_directory('modules', $pattern, ['key' => 'name']);
+  $files = \Drupal::service('file_system')->scanDirectory('modules', $pattern, ['key' => 'name']);
   if ($theme = HtmlMailHelper::getSelectedTheme()) {
     $theme_path = \Drupal::service('theme_handler')->getTheme($theme)->getPath();
     $files = array_merge($files,
-      file_scan_directory($theme_path, $pattern, ['key' => 'name'])
+      \Drupal::service('file_system')->scanDirectory($theme_path, $pattern, ['key' => 'name'])
     );
   }
   else {
