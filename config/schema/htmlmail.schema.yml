@@ -19,20 +19,20 @@ htmlmail.settings:
       label: 'Use the PEAR Mime mail class'
     htmlmail_test:
       type: mapping
-      label: 'Mail header data for sending out the test mail message'
+      label: 'Mail header data for sending out the test email message'
       mapping:
         to:
           type: string
-          label: 'The recipient of the test mail message'
+          label: 'The recipient of the test email message'
         subject:
           type: string
-          label: 'The subject of the test mail message'
+          label: 'The subject of the test email message'
         body:
           type: sequence
-          label: 'The content of the test mail message'
+          label: 'The content of the test email message'
           sequence:
             type: string
-            label: 'The body text of the test mail message'
+            label: 'The body text of the test email message'
         class:
           type: string
-          label: 'The class of the test mail message'
+          label: 'The class of the test email message'

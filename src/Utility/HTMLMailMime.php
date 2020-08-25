@@ -324,7 +324,7 @@ class HTMLMailMime extends \Mail_mime {
   }
 
   /**
-   * Returns the complete e-mail, ready to send.
+   * Returns the complete email, ready to send.
    *
    * @param string $separation
    *   (optional) The string used to separate header and body parts.
@@ -346,7 +346,7 @@ class HTMLMailMime extends \Mail_mime {
   }
 
   /**
-   * Appends the complete e-mail to a file.
+   * Appends the complete email to a file.
    *
    * @param string $filename
    *   The output file location.
@@ -368,7 +368,7 @@ class HTMLMailMime extends \Mail_mime {
   }
 
   /**
-   * Appends the complete e-mail body to a file.
+   * Appends the complete email body to a file.
    *
    * @param string $filename
    *   The output file location.
