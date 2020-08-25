@@ -17,11 +17,22 @@ use Drupal\Core\Link;
  */
 class HtmlMailTestForm extends FormBase {
 
-  protected $mailManager;
-  protected $accountInterface;
-
   const KEY_NAME = 'test';
   const DEFAULT_MAIL = 'user@example.com';
+
+  /**
+   * The mail manager service.
+   *
+   * @var \Drupal\Core\Mail\MailManagerInterface
+   */
+  protected $mailManager;
+
+  /**
+   * The user account service.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $accountInterface;
 
   /**
    * {@inheritdoc}
