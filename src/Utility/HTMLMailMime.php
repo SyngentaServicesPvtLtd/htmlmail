@@ -280,7 +280,7 @@ class HTMLMailMime extends \Mail_mime {
    *   (optional) The value to use for the Content-Description header.
    * @param string $header_encoding
    *   (optional) The character set to use for this part's MIME headers.
-   * @param array $add_header
+   * @param mixed $add_header
    *   (optional) Extra headers.
    *
    * @return bool
@@ -300,7 +300,7 @@ class HTMLMailMime extends \Mail_mime {
     $filename_encoding = NULL,
     $description = '',
     $header_encoding = NULL,
-    array $add_header = []
+    $add_header = []
   ) {
     // @todo Set content_type with mimedetect if possible.
     return self::successful(
