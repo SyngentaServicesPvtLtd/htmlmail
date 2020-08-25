@@ -16,6 +16,11 @@ use Drupal\htmlmail\Helper\HtmlMailHelper;
  */
 class HtmlMailConfigurationForm extends ConfigFormBase {
 
+  /**
+   * The module_handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
   protected $moduleHandler;
 
   /**
@@ -321,7 +326,6 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-
     $this->configFactory->getEditable('htmlmail.settings')
       // Set the submitted configuration setting.
       ->set('htmlmail_debug', $form_state->getValue('htmlmail_debug'))
@@ -351,7 +355,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static (
+    return new static(
       $container->get('config.factory'),
       $container->get('module_handler')
     );

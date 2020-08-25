@@ -8,13 +8,7 @@ use Drupal\Component\Utility\UrlHelper;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 
 /**
- * @file
  * Provides the MailMIME class for creating MIME-formatted email messages.
- */
-
-
-/**
- * The MailMIME class is used to create MIME email messages.
  *
  * The MailMIME class extends the PEAR Mail_Mime class as follows:
  * - All errors are routed to logger.
@@ -39,15 +33,34 @@ require_once 'Mail/mimeDecode.php';
  * @package Drupal\htmlmail\Utility
  */
 class HTMLMailMime extends \Mail_mime {
+
+  /**
+   * The logger service.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected static $logger;
+
+  /**
+   * The mime type guesser service.
+   *
+   * @var \Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface
+   */
+  protected static $mimeTypeGuesser;
+
+  /**
+   * The filesystem service.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  protected static $fileSystem;
+
   /**
    * Holds attached content-ids to to avoid attaching the same file twice.
    *
    * @var array
    */
   protected $cids = [];
-  protected static $logger;
-  protected static $mimeTypeGuesser;
-  protected static $fileSystem;
 
   /**
    * Holds parameters used for building the formatted message.

@@ -29,16 +29,58 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
  */
 class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
 
+  /**
+   * The email validator service.
+   *
+   * @var \Egulias\EmailValidator\EmailValidator
+   */
   protected $emailValidator;
-  protected $systemConfig;
+
+  /**
+   * The module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
   protected $moduleHandler;
-  protected $logger;
-  protected $configVariables;
-  protected $siteSettings;
+
+  /**
+   * The file system service.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
   protected $fileSystem;
+
+  /**
+   * The logger service.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $logger;
+
+  /**
+   * The site settings service.
+   *
+   * @var \Drupal\Core\Site\Settings
+   */
+  protected $siteSettings;
+
+  /**
+   * The render service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
   protected $renderer;
+
+  /**
+   * The mime type guesser service.
+   *
+   * @var \Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface
+   */
   protected $mimeType;
+
   protected $configFactory;
+  protected $systemConfig;
+  protected $configVariables;
 
   /**
    * HTMLMailSystem constructor.
@@ -62,7 +104,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The render service.
    * @param \Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface $mimeTypeGuesser
-   *   The mime guesser service.
+   *   The mime type guesser service.
    */
   public function __construct(
     array $configuration,
@@ -382,8 +424,8 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       else {
         // On most non-Windows systems, the "-f" option to the sendmail command
         // is used to set the Return-Path.
-        // We validate the return path, unless it is equal to the site mail, which
-        // we assume to be safe.
+        // We validate the return path, unless it is equal to the site mail,
+        // which we assume to be safe.
         $site_mail = $this->configFactory->get('system.site')->get('mail');
         $extra = ($site_mail === $message['headers']['Return-Path'] || static::_isShellSafe($message['headers']['Return-Path'])) ? '-f' . $message['headers']['Return-Path'] : '';
         $result = @mail($to, $subject, $body, $txt_headers, $extra);
