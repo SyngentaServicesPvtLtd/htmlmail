@@ -474,7 +474,7 @@ class HTMLMailMime extends \Mail_mime {
    *   The file system service.
    *
    * @return bool|\Drupal\htmlmail\Utility\HTMLMailMime
-   *   FALSE if an error occured; otherwise a new MailMIME object containing
+   *   FALSE if an error occurred; otherwise a new MailMIME object containing
    *   the parsed message and its attachments, if any.
    */
   public static function &parse(
