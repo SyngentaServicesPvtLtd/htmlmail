@@ -24,11 +24,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
   protected $moduleHandler;
 
   /**
-   * Gets the configuration names that will be editable.
-   *
-   * @return array
-   *   An array of configuration object names that are editable if called in
-   *   conjunction with the trait's config() method.
+   * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
     return [
@@ -37,10 +33,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
   }
 
   /**
-   * Returns a unique string identifying the form.
-   *
-   * @return string
-   *   The unique string identifying the form.
+   * {@inheritdoc}
    */
   public function getFormId() {
     return 'htmlmail_general';
@@ -64,15 +57,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
   }
 
   /**
-   * Defines the settings form for HTML Mail.
-   *
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   *
-   * @return array
-   *   Form definition array.
+   * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
