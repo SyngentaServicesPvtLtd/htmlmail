@@ -427,7 +427,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
         // We validate the return path, unless it is equal to the site mail,
         // which we assume to be safe.
         $site_mail = $this->configFactory->get('system.site')->get('mail');
-        $extra = ($site_mail === $message['headers']['Return-Path'] || static::_isShellSafe($message['headers']['Return-Path'])) ? '-f' . $message['headers']['Return-Path'] : '';
+        $extra = ($site_mail === $message['headers']['Return-Path'] || static::isShellSafe($message['headers']['Return-Path'])) ? '-f' . $message['headers']['Return-Path'] : '';
         $result = @mail($to, $subject, $body, $txt_headers, $extra);
         if ($this->configVariables->get('htmlmail_debug')) {
           $params[] = $extra;
@@ -472,15 +472,14 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    *   The string to be validated.
    *
    * @return bool
-   *   True if the string is shell-safe.
+   *   TRUE if the string is shell-safe.
    *
    * @see https://github.com/PHPMailer/PHPMailer/issues/924
    * @see https://github.com/PHPMailer/PHPMailer/blob/v5.2.21/class.phpmailer.php#L1430
-   *
-   * @todo Rename to ::isShellSafe() and/or discuss whether this is the correct
-   *   location for this helper.
+   * @see https://www.drupal.org/sa-core-2018-006
+   * @see https://www.drupal.org/sa-contrib-2018-069
    */
-  protected static function _isShellSafe($string) {
+  protected static function isShellSafe($string) {
     if (escapeshellcmd($string) !== $string || !in_array(escapeshellarg($string), ["'$string'", "\"$string\""])) {
       return FALSE;
     }
