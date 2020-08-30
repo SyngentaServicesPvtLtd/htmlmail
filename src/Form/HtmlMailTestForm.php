@@ -35,6 +35,19 @@ class HtmlMailTestForm extends FormBase {
   protected $accountInterface;
 
   /**
+   * HtmlMailTestForm constructor.
+   *
+   * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
+   *   The mail manager service.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The user account service.
+   */
+  public function __construct(MailManagerInterface $mail_manager, AccountInterface $account) {
+    $this->mailManager = $mail_manager;
+    $this->accountInterface = $account;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -42,19 +55,6 @@ class HtmlMailTestForm extends FormBase {
       $container->get('plugin.manager.mail'),
       $container->get('current_user')
     );
-  }
-
-  /**
-   * HtmlMailTestForm constructor.
-   *
-   * @param \Drupal\Core\Mail\MailManagerInterface $mailManager
-   *   The mail manager service.
-   * @param \Drupal\Core\Session\AccountInterface $account
-   *   The user account service.
-   */
-  public function __construct(MailManagerInterface $mailManager, AccountInterface $account) {
-    $this->mailManager = $mailManager;
-    $this->accountInterface = $account;
   }
 
   /**

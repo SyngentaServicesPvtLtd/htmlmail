@@ -63,6 +63,25 @@ class HTMLMailMime extends \Mail_mime {
   protected $cids = [];
 
   /**
+   * HTMLMailMime constructor.
+   *
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
+   *   The logger service.
+   * @param \Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface $mime_type_guesser
+   *   The mime type service.
+   * @param \Drupal\Core\File\FileSystemInterface $file_system
+   *   The filesystem service.
+   * @param array $params
+   *   The params.
+   */
+  public function __construct(LoggerChannelFactoryInterface $logger, MimeTypeGuesserInterface $mime_type_guesser, FileSystemInterface $file_system, array $params = []) {
+    self::$logger = $logger;
+    self::$mimeTypeGuesser = $mime_type_guesser;
+    self::$fileSystem = $file_system;
+    parent::__construct($params);
+  }
+
+  /**
    * Holds parameters used for building the formatted message.
    *
    * @var array
@@ -125,25 +144,6 @@ class HTMLMailMime extends \Mail_mime {
       $data = FALSE;
     }
     return $data;
-  }
-
-  /**
-   * HTMLMailMime constructor.
-   *
-   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
-   *   The logger service.
-   * @param \Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface $mimeTypeGuesser
-   *   The mime type service.
-   * @param \Drupal\Core\File\FileSystemInterface $fileSystem
-   *   The filesystem service.
-   * @param array $params
-   *   The params.
-   */
-  public function __construct(LoggerChannelFactoryInterface $logger, MimeTypeGuesserInterface $mimeTypeGuesser, FileSystemInterface $fileSystem, array $params = []) {
-    self::$logger = $logger;
-    self::$mimeTypeGuesser = $mimeTypeGuesser;
-    self::$fileSystem = $fileSystem;
-    parent::__construct($params);
   }
 
   /**
