@@ -441,10 +441,10 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     if (!$result && $this->configVariables->get('htmlmail_debug')) {
       $call = '@mail(' . implode(', ', $params) . ')';
       foreach ($params as $i => $value) {
-        $params[$i] = var_export($value, 1);
+        $params[$i] = var_export($value, TRUE);
       }
       if (defined('DEBUG_BACKTRACE_IGNORE_ARGS')) {
-        $trace = print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 1);
+        $trace = print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), TRUE);
       }
       else {
         $trace = debug_backtrace(0);
