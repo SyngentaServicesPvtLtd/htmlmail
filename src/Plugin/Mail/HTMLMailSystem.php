@@ -202,7 +202,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
   public function format(array $message) {
     $eol = $this->siteSettings->get('mail_line_endings', PHP_EOL);
     $default_from = $this->getDefaultFromMail();
-    $force_plain = $this->configVariables->get('htmlmail_html_with_plain');
+    $force_plain = $this->configVariables->get('html_with_plain');
 
     if (!empty($message['headers']['From'])
       && $message['headers']['From'] == $default_from
@@ -214,7 +214,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     }
 
     // Collapse the message body array.
-    if ($this->configVariables->get('htmlmail_use_mime_mail')) {
+    if ($this->configVariables->get('use_mime_mail')) {
       $body = $this->formatMailMime($message);
       $plain = $message['MailMIME']->getTXTBody();
     }
@@ -267,7 +267,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
         }
       }
       // Optionally apply the selected output filter.
-      if ($filter = $this->configVariables->get('htmlmail_postfilter')) {
+      if ($filter = $this->configVariables->get('postfilter')) {
         $filtered_body = check_markup($body, $filter);
         if ($filtered_body) {
           $body = $filtered_body;
@@ -302,7 +302,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       else {
         $message['headers']['Content-Type'] = 'text/html; charset=utf-8';
         $message['body'] = $body;
-        if ($this->configVariables->get('htmlmail_html_with_plain')) {
+        if ($this->configVariables->get('html_with_plain')) {
           $boundary = uniqid('np');
           $message['headers']['Content-Type'] = 'multipart/alternative;boundary="' . $boundary . '"';
           $html = $message['body'];
@@ -397,7 +397,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       ]);
       return FALSE;
     }
-    if ($this->configVariables->get('htmlmail_debug')) {
+    if ($this->configVariables->get('debug')) {
       $params = [
         $to,
         $subject,
@@ -429,7 +429,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
         $site_mail = $this->configFactory->get('system.site')->get('mail');
         $extra = ($site_mail === $message['headers']['Return-Path'] || static::isShellSafe($message['headers']['Return-Path'])) ? '-f' . $message['headers']['Return-Path'] : '';
         $result = @mail($to, $subject, $body, $txt_headers, $extra);
-        if ($this->configVariables->get('htmlmail_debug')) {
+        if ($this->configVariables->get('debug')) {
           $params[] = $extra;
         }
       }
@@ -438,7 +438,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       // No return-path was set.
       $result = @mail($to, $subject, $body, $txt_headers);
     }
-    if (!$result && $this->configVariables->get('htmlmail_debug')) {
+    if (!$result && $this->configVariables->get('debug')) {
       $call = '@mail(' . implode(', ', $params) . ')';
       foreach ($params as $i => $value) {
         $params[$i] = var_export($value, TRUE);

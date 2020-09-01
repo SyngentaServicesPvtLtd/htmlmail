@@ -71,7 +71,7 @@ class HtmlMailTestForm extends FormBase {
 
     $config = $this->config('htmlmail.settings');
 
-    $defaults = $config->get('htmlmail_test');
+    $defaults = $config->get('test');
     if (empty($defaults)) {
       $defaults = [
         'to' => $config->get('site_mail') ?: self::DEFAULT_MAIL,
@@ -163,7 +163,7 @@ class HtmlMailTestForm extends FormBase {
 
     // Set the defaults for reuse.
     $config = $this->configFactory()->getEditable('htmlmail.settings');
-    $config->set('htmlmail_test', $defaults)->save();
+    $config->set('test', $defaults)->save();
 
     // Send the email.
     $params = [

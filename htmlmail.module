@@ -110,7 +110,7 @@ function template_preprocess_htmlmail(array &$variables) {
   $module_handler = \Drupal::service('module_handler');
   $theme_handler = \Drupal::service('theme_handler');
 
-  $variables['debug'] = $html_settings->get('htmlmail_debug') ?: FALSE;
+  $variables['debug'] = $html_settings->get('debug') ?: FALSE;
   $variables['theme'] = HtmlMailHelper::getSelectedTheme($variables);
   $variables['module_path'] = $module_handler->getModule('htmlmail')->getPath() . '/templates';
   if (empty($variables['theme'])) {
