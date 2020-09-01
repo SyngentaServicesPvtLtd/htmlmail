@@ -133,11 +133,11 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
         </dd>
         <dt><strong><code>message.module</code></strong></dt>
         <dd>
-          <p>The first argument to <a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Mail!MailManager.php/function/MailManager%3A%3Amail/8.6.x"><code>MailManager::mail</code></a>, which is, by convention, the machine-readable name of the sending module.</p>
+          <p>The first argument to <a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Mail!MailManager.php/function/MailManager%3A%3Amail"><code>MailManager::mail</code></a>, which is, by convention, the machine-readable name of the sending module.</p>
         </dd>
         <dt><strong><code>message.key</code></strong></dt>
         <dd>
-          <p>The second argument to <a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Mail!MailManager.php/function/MailManager%3A%3Amail/8.6.x"><code>MailManager::mail</code></a>, which should give some indication of why this email is being sent.</p>
+          <p>The second argument to <a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Mail!MailManager.php/function/MailManager%3A%3Amail"><code>MailManager::mail</code></a>, which should give some indication of why this email is being sent.</p>
         </dd>
         <dt><strong><code>message.message_id</code></strong></dt>
         <dd>
@@ -200,7 +200,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
           <p><code>TRUE</code> to add some useful debugging info to the bottom of the message.</p>
         </dd>
         </dl>
-        <p>Other modules may also add or modify theme variables by implementing a <code>MODULENAME_preprocess_htmlmail(&amp;$variables)</code> <a href="https://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/8.6.x">hook function</a>.</p>',
+        <p>Other modules may also add or modify theme variables by implementing a <code>MODULENAME_preprocess_htmlmail(&amp;$variables)</code> <a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/function/hook_preprocess_HOOK">hook function</a>.</p>',
       [':Instructions' => '']
       ),
     ];
