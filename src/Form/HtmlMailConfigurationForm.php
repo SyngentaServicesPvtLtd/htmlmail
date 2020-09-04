@@ -49,17 +49,17 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
-    return [
-      'htmlmail.settings',
-    ];
+  public function getFormId() {
+    return 'htmlmail_settings';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
-    return 'htmlmail_general';
+  protected function getEditableConfigNames() {
+    return [
+      'htmlmail.settings',
+    ];
   }
 
   /**
@@ -83,7 +83,6 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-
     $config = $this->config('htmlmail.settings');
 
     $form['template'] = [
@@ -92,21 +91,23 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
     ];
 
     $form['template']['template'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Template file'),
+      '#description' => $this->t('A template file is applied to your message header, subject, and body text.  You may copy the <code><a href=":uri">:template</a></code> file to your default theme directory and use it to customize your messages.', [
+        ':uri' => 'https://git.drupalcode.org/project/htmlmail/raw/8.x-3.x/templates/htmlmail.html.twig',
+        ':template' => 'htmlmail.html.twig',
+      ]),
+    ];
+
+    $form['template']['instructions'] = [
       '#type' => 'details',
-      '#prefix' => '<strong>' . $this->t('Template file:') . '</strong><br />'
-      . $this->t('A template file is applied to your message header, subject, and body text.  You may copy the <code><a href=":uri">:template</a></code> file to your default theme directory and use it to customize your messages.',
-          [
-            ':uri' => 'https://git.drupalcode.org/project/htmlmail/raw/8.x-3.x/templates/htmlmail.html.twig',
-            ':template' => 'htmlmail.html.twig',
-          ]
-      ),
       '#title' => $this->t('Instructions'),
       '#open' => FALSE,
     ];
 
-    $form['template']['template']['instructions'] = [
-      '#type' => 'item',
-      '#suffix' => $this->t(':Instructions
+    $form['template']['instructions']['text'] = [
+      '#type' => 'markup',
+      '#markup' => $this->t(':Instructions
         <p>When formatting an email message with a given <code>$module</code> and <code>$key</code>, <a href="https://www.drupal.org/project/htmlmail">HTML Mail</a> will use the first template file it finds from the following list:</p>
         <ol style="list-style-type: decimal;">
           <li><code>htmlmail--$module--$key.html.twig</code></li>
@@ -207,7 +208,6 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
 
     $form['template']['debug'] = [
       '#type' => 'checkbox',
-      '#prefix' => '<br />',
       '#title' => '<em>' . $this->t('(Optional)') . '</em> ' . $this->t('Debug'),
       '#default_value' => $config->get('debug'),
       '#description' => $this->t('Add debugging info (Set <code>$debug</code> to <code>TRUE</code>).'),
@@ -223,7 +223,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
       '#title' => $this->t('Email theme'),
       '#default_value' => $config->get('theme'),
       '#options' => HtmlMailHelper::getAllowedThemes(),
-      '#suffix' => '<p>'
+      '#description' => '<p>'
       . $this->t('Choose the theme that will hold your customized templates from Step 1 above.')
       . '</p><p>'
       . ($this->moduleHandler->moduleExists('echo') ?
@@ -273,7 +273,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
       '#title' => $this->t('Post-filtering'),
       '#default_value' => $config->get('postfilter'),
       '#options' => $this->getFilterFormatsList(),
-      '#suffix' => '<p>'
+      '#description' => '<p>'
       . $this->t('You may choose a <a href=":formats">text format</a> to be used for filtering email messages <em>after</em> theming.  This allows you to use any combination of <a href=":filters">over 200 filter modules</a> to make final changes to your message before sending.',
           [
             ':formats' => 'admin/config/content/formats',
