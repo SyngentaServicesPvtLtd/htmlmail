@@ -66,15 +66,16 @@ function htmlmail_form_user_form_alter(&$form, FormStateInterface $form_state, $
     return;
   }
 
+  $user_data_name = HtmlMailHelper::HTMLMAIL_USER_DATA_NAME;
   $account_data_plaintext = \Drupal::service('user.data')->get(
     HtmlMailHelper::HTMLMAIL_MODULE_NAME,
     $form_state->getFormObject()->getEntity()->id(),
-    'htmlmail_plaintext'
+    $user_data_name
   );
 
   $form['account']['mail'] = [
     'mail' => $form['account']['mail'],
-    'htmlmail_plaintext' => [
+    $user_data_name => [
       '#type' => 'checkbox',
       '#title' => t('Plaintext-only emails'),
       '#default_value' => empty($account_data_plaintext) ? 0 : 1,
