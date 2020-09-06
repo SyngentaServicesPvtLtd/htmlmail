@@ -401,7 +401,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       $params = [
         $to,
         $subject,
-        Unicode::substr($body, 0, min(80, strpos("\n", $body))) . '...',
+        mb_substr($body, 0, min(80, strpos("\n", $body))) . '...',
         $txt_headers,
       ];
     }
