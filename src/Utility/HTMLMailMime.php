@@ -8,13 +8,13 @@ use Drupal\Component\Utility\UrlHelper;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 
 /**
- * Provides the MailMIME class for creating MIME-formatted email messages.
+ * Provides the HtmlMailMime class for creating MIME-formatted email messages.
  *
- * The MailMIME class extends the PEAR Mail_Mime class as follows:
+ * The HtmlMailMime class extends the PEAR \Mail_mime class as follows:
  * - All errors are routed to logger.
  * - Content-IDs are assigned based on filename, not the current timestamp.
- * - Only the first call to MailMIME::addHTMLImage() for a given filename will
- *   attach the file.  Subsequent calls with the same filename will return
+ * - Only the first call to HtmlMailMime::addHTMLImage() for a given filename
+ *   will attach the file.  Subsequent calls with the same filename will return
  *   TRUE for success but will not attach additional copies.
  * - Image references within the HTML part are auto-detected and converted
  *   to inline attachments, as long as their URLs can be resolved to files
@@ -23,9 +23,6 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
  *
  * @see http://pear.php.net/package/Mail_mime
  */
-
-require_once 'Mail/mime.php';
-require_once 'Mail/mimeDecode.php';
 
 /**
  * Class HTMLMailMime.
@@ -123,15 +120,15 @@ class HTMLMailMime extends \Mail_mime {
   ];
 
   /**
-   * Routes PEAR_Error objects to logger.
+   * Routes \PEAR_Error objects to logger.
    *
-   * Passes PEAR_Error objects to logger, and returns FALSE.
+   * Passes \PEAR_Error objects to logger, and returns FALSE.
    *
    * @param object $data
-   *   The result of another function that may return a PEAR_Error object.
+   *   The result of another function that may return a \PEAR_Error object.
    *
-   * @return bool
-   *   FALSE if $data is a PEAR_Error object; otherwise $data.
+   * @return bool|object
+   *   FALSE if $data is a \PEAR_Error object; otherwise $data.
    */
   protected static function &successful(&$data) {
     if (\PEAR::isError($data)) {
@@ -462,7 +459,7 @@ class HTMLMailMime extends \Mail_mime {
   }
 
   /**
-   * Parse a complete message and return a MailMIME object.
+   * Parse a complete message and return a HtmlMailMime object.
    *
    * @param string $message
    *   The complete message, including headers and body.
@@ -474,8 +471,8 @@ class HTMLMailMime extends \Mail_mime {
    *   The file system service.
    *
    * @return bool|\Drupal\htmlmail\Utility\HTMLMailMime
-   *   FALSE if an error occurred; otherwise a new MailMIME object containing
-   *   the parsed message and its attachments, if any.
+   *   FALSE if an error occurred; otherwise a new HtmlMailMime object
+   *   containing the parsed message and its attachments, if any.
    */
   public static function &parse(
     $message,
@@ -523,15 +520,15 @@ class HTMLMailMime extends \Mail_mime {
   }
 
   /**
-   * Recursively copies message parts into a MailMIME object.
+   * Recursively copies message parts into a HtmlMailMime object.
    *
-   * Copies the MIME parts from an object returned by Mail_mimeDecode->decode()
-   * into a MailMIME object, including subparts of any 'multipart' parts.
+   * Copies the MIME parts from an object returned by \Mail_mimeDecode->decode()
+   * into a HtmlMailMime object, including subparts of any 'multipart' parts.
    *
    * @param \Drupal\htmlmail\Utility\HTMLMailMime $parsed
-   *   The target MailMIME object.
+   *   The target HtmlMailMime object.
    * @param object $decoded
-   *   The object returned by Mail_mimeDecode->decode() whose MIME parts
+   *   The object returned by \Mail_mimeDecode->decode() whose MIME parts
    *   are being copied.
    * @param string $parent_subtype
    *   The content-type subtype of the parent multipart MIME part.  This should
@@ -598,7 +595,7 @@ class HTMLMailMime extends \Mail_mime {
    * Returns an array with keys changed to match the case of email headers.
    *
    * @param string|array $input
-   *   The headers to be changed, either as a MAIL_MIME_CRLF-delimited string
+   *   The headers to be changed, either as a \Mail_mime CRLF-delimited string
    *   or as an associative array of (name => value) pairs.
    *
    * @return array

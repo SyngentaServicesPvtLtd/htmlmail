@@ -214,7 +214,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     }
 
     // Collapse the message body array.
-    if ($this->configVariables->get('use_mime_mail')) {
+    if ($this->configVariables->get('use_mail_mime')) {
       $body = $this->formatMailMime($message);
       $plain = $message['MailMIME']->getTXTBody();
     }

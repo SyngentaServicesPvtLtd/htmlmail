@@ -14,7 +14,7 @@ htmlmail.settings:
     postfilter:
       type: string
       label: 'The filter used on email body'
-    use_mime_mail:
+    use_mail_mime:
       type: boolean
       label: 'Use the PEAR \Mail_mime class'
     test:

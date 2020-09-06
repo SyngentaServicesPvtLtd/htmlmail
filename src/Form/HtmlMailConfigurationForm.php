@@ -247,11 +247,11 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
       '#title' => $this->t('Step 3'),
     ];
 
-    $form['filter']['use_mime_mail'] = [
+    $form['filter']['use_mail_mime'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Use the Mime Mail class (PEAR).'),
-      '#default_value' => $config->get('use_mime_mail'),
-      '#description' => $this->t('Use the Mime Mail external class to send HTML Mail. Remember to download the external class.'),
+      '#title' => $this->t('Use the \Mail_mime class (PEAR).'),
+      '#default_value' => $config->get('use_mail_mime'),
+      '#description' => $this->t('Use the \Mail_mime external class to send HTML Mail. Remember to download the external class.'),
     ];
 
     $form['filter']['html_with_plain'] = [
@@ -261,7 +261,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
       '#description' => $this->t('This may increase the quality of your outgoing emails for the spam filters.'),
       '#states' => [
         'visible' => [
-          ':input[name="use_mime_mail"]' => [
+          ':input[name="use_mail_mime"]' => [
             'checked' => TRUE,
           ],
         ],
@@ -311,19 +311,12 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    if ($form_state->getValue('use_mime_mail')) {
+    if ($form_state->getValue('use_mail_mime')) {
       // Try including the files, then check for the classes.
-      @include_once 'Mail/mime.php';
-      @include_once 'Mail/mimeDecode.php';
-      @include_once 'Mail/mimePart.php';
-      if (!class_exists('Mail_Mime')
-        || !class_exists('Mail_mimeDecode')
-        || !class_exists('Mail_mimePart')
-      ) {
-
-        $form_state->setErrorByName('use_mime_mail', $this->t('The \Mail_mime class was not found. Please download the required class using the <a href="@help">help section</a> commands or disable the option.',
-          ['@help' => '/admin/help/htmlmail']
-        ));
+      if (!class_exists('\Mail_mime') || !class_exists('\Mail_mimeDecode') || !class_exists('\Mail_mimePart')) {
+        $form_state->setErrorByName('use_mail_mime', $this->t('The \Mail_mime class was not found. Please download the required class using the <a href="@help">help section</a> commands or disable the option.', [
+          '@help' => '/admin/help/htmlmail',
+        ]));
       }
     }
 
@@ -340,7 +333,7 @@ class HtmlMailConfigurationForm extends ConfigFormBase {
       ->set('theme', $form_state->getValue('theme'))
       ->set('html_with_plain', $form_state->getValue('html_with_plain'))
       ->set('postfilter', $form_state->getValue('postfilter'))
-      ->set('use_mime_mail', $form_state->getValue('use_mime_mail'))
+      ->set('use_mail_mime', $form_state->getValue('use_mail_mime'))
       ->save();
 
     parent::submitForm($form, $form_state);

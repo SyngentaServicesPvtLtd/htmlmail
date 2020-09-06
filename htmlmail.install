@@ -77,3 +77,21 @@ function htmlmail_update_8301() {
   // Save modified configuration.
   $config->save('TRUE');
 }
+
+/**
+ * Renames the 'use_mime_mail' configuration variable to 'use_mail_mime'.
+ *
+ * @see https://www.drupal.org/project/htmlmail/issues/3169313
+ */
+function htmlmail_update_8302() {
+  $config = \Drupal::configFactory()->getEditable('htmlmail.settings');
+
+  // Copy old configuration to new configuration.
+  $config->set('use_mail_mime', $config->get('use_mime_mail'));
+
+  // Remove old configuration.
+  $config->clear('use_mime_mail');
+
+  // Save modified configuration.
+  $config->save('TRUE');
+}
