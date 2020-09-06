@@ -142,7 +142,7 @@ class HtmlMailTestForm extends FormBase {
     }
 
     if (empty($list)) {
-      $list['htmlmail'] = 'HTMLMailSystem';
+      $list['htmlmail'] = 'HtmlMailSystem';
     }
 
     return $list;

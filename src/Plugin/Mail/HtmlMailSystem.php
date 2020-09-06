@@ -15,19 +15,19 @@ use Drupal\Component\Utility\Unicode;
 use Drupal\htmlmail\Helper\HtmlMailHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Egulias\EmailValidator\EmailValidator;
-use Drupal\htmlmail\Utility\HTMLMailMime;
+use Drupal\htmlmail\Utility\HtmlMailMime;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 
 /**
- * Modify the Drupal mail system to use HTMLMail when sending emails.
+ * Modify the Drupal mail system to use HTML Mail when sending emails.
  *
  * @Mail(
  *   id = "htmlmail",
- *   label = @Translation("HTMLMail mailer"),
- *   description = @Translation("Sends the message using HTMLMail.")
+ *   label = @Translation("HTML Mail mailer"),
+ *   description = @Translation("Sends the message using HTML Mail.")
  * )
  */
-class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
+class HtmlMailSystem implements MailInterface, ContainerFactoryPluginInterface {
 
   /**
    * The email validator service.
@@ -83,7 +83,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
   protected $configVariables;
 
   /**
-   * HTMLMailSystem constructor.
+   * HtmlMailSystem constructor.
    *
    * @param array $configuration
    *   The configuration array.
@@ -294,7 +294,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
         if (!$message['body']) {
 
           $this->getLogger()->warning('The %toemail function did not return any text. Please report this error to the %mailmime issue queue.', [
-            '%toemail' => 'HTMLMailMime::toEmail()',
+            '%toemail' => 'HtmlMailMime::toEmail()',
             '%mailmime' => 'Mail MIME',
           ]);
         }
@@ -332,7 +332,7 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
         list($message['headers'], $message['body']) = $mime->toEmail($message['headers']);
         if (!$message['body']) {
           $this->getLogger()->warning('The %toemail function did not return any text. Please report this error to the %mailmime issue queue.', [
-            '%toemail' => 'HTMLMailMime::toEmail()',
+            '%toemail' => 'HtmlMailMime::toEmail()',
             '%mailmime' => 'Mail MIME',
           ]);
         }
@@ -376,8 +376,8 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       $message['to'] = $message['headers']['To'];
     }
 
-    if (class_exists('HTMLMailMime')) {
-      $mime = new HTMLMailMime($this->logger, $this->siteSettings, $this->mimeType, $this->fileSystem);
+    if (class_exists('HtmlMailMime')) {
+      $mime = new HtmlMailMime($this->logger, $this->siteSettings, $this->mimeType, $this->fileSystem);
       $to = $mime->mimeEncodeHeader('to', $message['to']);
       $subject = $mime->mimeEncodeHeader('subject', $message['subject']);
       $txt_headers = $mime->mimeTxtHeaders($message['headers']);
@@ -496,11 +496,11 @@ class HTMLMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    */
   public function formatMailMime(array &$message) {
     $eol = $this->siteSettings->get('mail_line_endings', PHP_EOL);
-    $message['body'] = HTMLMailMime::concat($message['body'], $eol);
+    $message['body'] = HtmlMailMime::concat($message['body'], $eol);
     // Build a full email message string.
-    $email = HTMLMailMime::encodeEmail($message['headers'], $message['body'], $eol);
+    $email = HtmlMailMime::encodeEmail($message['headers'], $message['body'], $eol);
     // Parse it into MIME parts.
-    if (!($mime = HTMLMailMime::parse($email, $this->logger, $this->mimeType, $this->fileSystem))) {
+    if (!($mime = HtmlMailMime::parse($email, $this->logger, $this->mimeType, $this->fileSystem))) {
       $this->getLogger()->error('Could not parse email message.');
       return $message;
     }

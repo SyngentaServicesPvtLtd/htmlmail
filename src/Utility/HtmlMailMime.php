@@ -25,11 +25,11 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
  */
 
 /**
- * Class HTMLMailMime.
+ * Class HtmlMailMime.
  *
  * @package Drupal\htmlmail\Utility
  */
-class HTMLMailMime extends \Mail_mime {
+class HtmlMailMime extends \Mail_mime {
 
   /**
    * The logger service.
@@ -60,7 +60,7 @@ class HTMLMailMime extends \Mail_mime {
   protected $cids = [];
 
   /**
-   * HTMLMailMime constructor.
+   * HtmlMailMime constructor.
    *
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
    *   The logger service.
@@ -405,7 +405,7 @@ class HTMLMailMime extends \Mail_mime {
    *
    * @param string $params
    *   (optional) An associative array used to override the
-   *   HTMLMailMime::_build_params values for building this message.
+   *   HtmlMailMime::_build_params values for building this message.
    * @param string $filename
    *   (optional) The filename where the message data should be written. The
    *   default is to return the message data as a string.
@@ -470,7 +470,7 @@ class HTMLMailMime extends \Mail_mime {
    * @param \Drupal\Core\File\FileSystemInterface $fileSystem
    *   The file system service.
    *
-   * @return bool|\Drupal\htmlmail\Utility\HTMLMailMime
+   * @return bool|\Drupal\htmlmail\Utility\HtmlMailMime
    *   FALSE if an error occurred; otherwise a new HtmlMailMime object
    *   containing the parsed message and its attachments, if any.
    */
@@ -492,7 +492,7 @@ class HTMLMailMime extends \Mail_mime {
     if (!self::successful($decoded)) {
       return FALSE;
     }
-    $parsed = new HTMLMailMime($logger, $mimeTypeGuesser, $fileSystem);
+    $parsed = new HtmlMailMime($logger, $mimeTypeGuesser, $fileSystem);
     self::parseDecoded($parsed, $decoded);
     return $parsed;
   }
@@ -525,7 +525,7 @@ class HTMLMailMime extends \Mail_mime {
    * Copies the MIME parts from an object returned by \Mail_mimeDecode->decode()
    * into a HtmlMailMime object, including subparts of any 'multipart' parts.
    *
-   * @param \Drupal\htmlmail\Utility\HTMLMailMime $parsed
+   * @param \Drupal\htmlmail\Utility\HtmlMailMime $parsed
    *   The target HtmlMailMime object.
    * @param object $decoded
    *   The object returned by \Mail_mimeDecode->decode() whose MIME parts
@@ -536,7 +536,7 @@ class HTMLMailMime extends \Mail_mime {
    *   string, signifying the root of the MIME tree.
    */
   protected static function parseDecoded(
-    HTMLMailMime &$parsed,
+    HtmlMailMime &$parsed,
     &$decoded,
     $parent_subtype = ''
   ) {
