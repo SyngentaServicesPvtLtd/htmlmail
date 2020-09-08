@@ -415,12 +415,6 @@ class HtmlMailSystem implements MailInterface, ContainerFactoryPluginInterface {
         $result = @mail($to, $subject, $body, $txt_headers);
         ini_set('sendmail_from', $old_from);
       }
-      elseif (ini_get('safe_mode')) {
-        // If safe mode is in effect, passing the fifth parameter to @mail
-        // will cause it to return FALSE and generate a PHP warning, even
-        // if the parameter is NULL.
-        $result = @mail($to, $subject, $body, $txt_headers);
-      }
       else {
         // On most non-Windows systems, the "-f" option to the sendmail command
         // is used to set the Return-Path.
@@ -443,16 +437,7 @@ class HtmlMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       foreach ($params as $i => $value) {
         $params[$i] = var_export($value, TRUE);
       }
-      if (defined('DEBUG_BACKTRACE_IGNORE_ARGS')) {
-        $trace = print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), TRUE);
-      }
-      else {
-        $trace = debug_backtrace(0);
-        for ($i = count($trace) - 1; $i >= 0; $i--) {
-          unset($trace[$i]['args']);
-        }
-        $trace = print_r($trace);
-      }
+      $trace = print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), TRUE);
       $this->getLogger()->info('Mail sending failed because:<br /><pre>@call</pre><br />returned FALSE.<br /><pre>@trace</pre>', [
         '@call' => $call,
         '@trace' => $trace,
