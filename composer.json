@@ -32,6 +32,6 @@
         }
     ],
     "require": {
-      "drupal/mailsystem": "^4.1"
+      "drupal/mailsystem": "^4.2"
     }
 }

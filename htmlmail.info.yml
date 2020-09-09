@@ -1,8 +1,9 @@
 name: HTML Mail
-description: Enables HTML in system emails.
 type: module
+description: 'Enables HTML in system emails.'
 package: Mail
-core: '8.x'
-configure: htmlmail.settings
+core_version_requirement: ^8.8.2 || ^9
 dependencies:
   - mailsystem:mailsystem
+
+configure: htmlmail.settings
