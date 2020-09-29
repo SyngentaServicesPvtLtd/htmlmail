@@ -420,7 +420,7 @@ class HtmlMailSystem implements MailInterface, ContainerFactoryPluginInterface {
         // is used to set the Return-Path.
         // We validate the return path, unless it is equal to the site mail,
         // which we assume to be safe.
-        $site_mail = $this->configFactory->get('system.site')->get('mail');
+        $site_mail = $this->getDefaultFromMail();
         $extra = ($site_mail === $message['headers']['Return-Path'] || static::isShellSafe($message['headers']['Return-Path'])) ? '-f' . $message['headers']['Return-Path'] : '';
         $result = @mail($to, $subject, $body, $txt_headers, $extra);
         if ($this->configVariables->get('debug')) {
@@ -453,6 +453,8 @@ class HtmlMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    * CVE-2016-10045. Note that escapeshellarg and escapeshellcmd are inadequate
    * for this purpose.
    *
+   * This method should be kept in sync with PhpMail::_isShellSafe().
+   *
    * @param string $string
    *   The string to be validated.
    *
@@ -463,6 +465,8 @@ class HtmlMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    * @see https://github.com/PHPMailer/PHPMailer/blob/v5.2.21/class.phpmailer.php#L1430
    * @see https://www.drupal.org/sa-core-2018-006
    * @see https://www.drupal.org/sa-contrib-2018-069
+   *
+   * @see \Drupal\Core\Mail\Plugin\Mail\PhpMail::_isShellSafe()
    */
   protected static function isShellSafe($string) {
     if (escapeshellcmd($string) !== $string || !in_array(escapeshellarg($string), ["'$string'", "\"$string\""])) {
