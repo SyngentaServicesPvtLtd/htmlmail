@@ -407,7 +407,7 @@ class HtmlMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     }
     if (isset($message['headers']['Return-Path'])) {
       // A return-path was set.
-      if (isset($_SERVER['WINDIR']) || strpos($_SERVER['SERVER_SOFTWARE'], 'Win32') !== FALSE) {
+      if (isset($_SERVER['WINDIR']) || (array_key_exists('SERVER_SOFTWARE', $_SERVER) && strpos($_SERVER['SERVER_SOFTWARE'], 'Win32') !== FALSE)) {
         // On Windows, PHP will use the value of sendmail_from for the
         // Return-Path header.
         $old_from = ini_get('sendmail_from');
