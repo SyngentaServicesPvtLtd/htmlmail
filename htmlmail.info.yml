@@ -2,7 +2,7 @@ name: HTML Mail
 type: module
 description: 'Enables HTML in system emails.'
 package: Mail
-core_version_requirement: ^8.8.2 || ^9
+core_version_requirement: ^10
 dependencies:
   - mailsystem:mailsystem
 
